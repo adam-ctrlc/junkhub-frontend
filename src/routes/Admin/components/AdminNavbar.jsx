@@ -50,7 +50,7 @@ export default function AdminNavbar() {
   const adminEmail = user?.email || "admin@junkhub.com";
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
       <nav className="w-full bg-white border-b border-gray-200 font-sans sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between gap-4">
           {/* Logo */}
@@ -203,10 +203,6 @@ export default function AdminNavbar() {
         )}
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-        <Outlet />
-      </main>
-
       {/* Notification Sidebar */}
       <NotificationSidebar
         isOpen={isNotifOpen}
@@ -215,6 +211,6 @@ export default function AdminNavbar() {
         mutate={mutate}
         apiPrefix="/admin"
       />
-    </div>
+    </>
   );
 }
