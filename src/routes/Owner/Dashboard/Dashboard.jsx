@@ -3,7 +3,7 @@ import {
   TrendingUp,
   ShoppingBag,
   Clock,
-  DollarSign,
+  PhilippinePeso,
   Package,
   Bell,
   BarChart2,
@@ -22,7 +22,7 @@ export default function Dashboard() {
     {
       label: "Total Sales",
       value: `₱${stats.totalSales.toLocaleString()}`,
-      icon: DollarSign,
+      icon: PhilippinePeso,
       color: "text-green-600",
       bg: "bg-green-100",
     },
@@ -159,7 +159,7 @@ export default function Dashboard() {
                       {item.type === "order" ? (
                         <ShoppingBag size={18} />
                       ) : item.type === "offer" ? (
-                        <DollarSign size={18} />
+                        <PhilippinePeso size={18} />
                       ) : (
                         <Bell size={18} />
                       )}

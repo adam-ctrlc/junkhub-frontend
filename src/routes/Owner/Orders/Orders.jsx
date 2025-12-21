@@ -11,7 +11,7 @@ import {
   Clock,
   Loader2,
   ShoppingBag,
-  DollarSign,
+  PhilippinePeso,
   MessageCircle,
 } from "lucide-react";
 import {
@@ -210,7 +210,7 @@ export default function Orders() {
                 : "border-transparent text-gray-500 hover:text-gray-900"
             }`}
           >
-            <DollarSign size={18} className="inline mr-2" />
+            <PhilippinePeso size={18} className="inline mr-2" />
             User Sell-Offers
             {newOffersCount > 0 && (
               <span className="ml-2 bg-red-100 text-red-600 px-2 py-0.5 rounded-full text-xs">
@@ -349,7 +349,10 @@ export default function Orders() {
             <>
               {!offersLoading && offers.length === 0 ? (
                 <div className="p-12 text-center text-gray-500">
-                  <DollarSign size={48} className="mx-auto mb-4 opacity-50" />
+                  <PhilippinePeso
+                    size={48}
+                    className="mx-auto mb-4 opacity-50"
+                  />
                   <p className="font-semibold">No offers yet</p>
                   <p className="text-sm mt-1">
                     User sell offers will appear here

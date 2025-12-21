@@ -10,7 +10,7 @@ import api from "../../../../lib/api";
 import {
   Loader2,
   Package,
-  DollarSign,
+  PhilippinePeso,
   Clock,
   CheckCircle,
   XCircle,
@@ -251,7 +251,7 @@ export default function OrderHistory() {
               : "border-transparent text-gray-500 hover:text-gray-900"
           }`}
         >
-          <DollarSign size={18} />
+          <PhilippinePeso size={18} />
           My Sell Offers
           {offers.filter((o) => o.status === "pending").length > 0 && (
             <span className="bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full text-xs">
@@ -537,7 +537,7 @@ export default function OrderHistory() {
             })
           ) : (
             <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-              <DollarSign size={48} className="mx-auto mb-4 opacity-30" />
+              <PhilippinePeso size={48} className="mx-auto mb-4 opacity-30" />
               <p className="text-gray-500 font-medium">No sell offers yet</p>
               <p className="text-sm text-gray-400 mt-1">
                 When you submit offers to sell items to shops, they'll appear

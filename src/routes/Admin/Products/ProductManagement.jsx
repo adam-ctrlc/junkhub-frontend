@@ -8,7 +8,7 @@ import {
   Loader2,
   AlertCircle,
   Trash2,
-  DollarSign,
+  PhilippinePeso,
   Tag,
   Calendar,
   CheckCircle2,
@@ -467,7 +467,7 @@ export default function ProductManagement() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 bg-gray-50 rounded-xl">
                 <div className="flex items-center gap-2 text-gray-500 mb-1">
-                  <DollarSign size={16} />
+                  <PhilippinePeso size={16} />
                   <span className="text-sm font-medium">Price</span>
                 </div>
                 <p className="text-gray-900 font-semibold">

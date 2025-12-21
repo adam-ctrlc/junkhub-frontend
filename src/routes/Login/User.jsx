@@ -36,7 +36,7 @@ export default function UserLogin() {
         <div className="w-full md:w-5/12 bg-[#FCD34D] p-12 flex flex-col justify-between relative overflow-hidden">
           {/* Back Button */}
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/choose")}
             className="absolute top-8 left-8 z-20 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors text-gray-900"
           >
             <ArrowLeft size={24} />

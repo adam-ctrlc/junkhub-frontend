@@ -2,7 +2,7 @@ import Modal from "./Modal";
 import {
   User,
   Package,
-  DollarSign,
+  PhilippinePeso,
   Calendar,
   MessageSquare,
   Phone,

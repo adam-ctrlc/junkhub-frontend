@@ -9,11 +9,13 @@ import {
   X,
   Leaf,
   Users,
+  ChevronDown,
 } from "lucide-react";
 
 export default function Landing() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,18 +60,64 @@ export default function Landing() {
                 About
               </Link>
 
-              <Link
-                to="/signup"
-                className="hover:text-yellow-600 transition-colors"
+              {/* Login Dropdown */}
+              <div
+                className="relative group"
+                onMouseEnter={() => setLoginDropdownOpen(true)}
+                onMouseLeave={() => setLoginDropdownOpen(false)}
               >
-                Join as Seller
-              </Link>
+                <button className="flex items-center gap-1 hover:text-yellow-600 transition-colors focus:outline-none">
+                  Login <ChevronDown size={14} />
+                </button>
+
+                {loginDropdownOpen && (
+                  <div className="absolute top-full right-0 w-48 pt-2">
+                    <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden p-1">
+                      <Link
+                        to="/login/user"
+                        className="block px-4 py-2 rounded-lg hover:bg-neutral-50 text-left"
+                      >
+                        <span className="block text-neutral-900 font-semibold">
+                          User Login
+                        </span>
+                        <span className="block text-xs text-neutral-500">
+                          For sellers & buyers
+                        </span>
+                      </Link>
+                      <Link
+                        to="/login/owner"
+                        className="block px-4 py-2 rounded-lg hover:bg-neutral-50 text-left"
+                      >
+                        <span className="block text-neutral-900 font-semibold">
+                          Owner Login
+                        </span>
+                        <span className="block text-xs text-neutral-500">
+                          For shop owners
+                        </span>
+                      </Link>
+                      <hr className="my-1 border-neutral-100" />
+                      <Link
+                        to="/choose"
+                        className="block px-4 py-2 rounded-lg hover:bg-neutral-50 text-left"
+                      >
+                        <span className="block text-neutral-900 font-semibold">
+                          Create Account
+                        </span>
+                        <span className="block text-xs text-neutral-500">
+                          New to JunkHub?
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
+
             <Link
-              to="/login/user"
+              to="/choose"
               className="px-5 py-2.5 bg-neutral-900 text-white text-sm font-semibold rounded-full hover:bg-neutral-800 transition-all hover:scale-105 flex items-center gap-2"
             >
-              Sign In <ArrowRight size={16} />
+              Get Started <ArrowRight size={16} />
             </Link>
           </div>
 
@@ -84,18 +132,43 @@ export default function Landing() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white border-b border-neutral-100 p-6 flex flex-col gap-4 md:hidden animate-slideUp">
-            <Link to="/about" className="text-neutral-600 font-medium py-2">
+          <div className="absolute top-full left-0 w-full bg-white border-b border-neutral-100 p-6 flex flex-col gap-4 md:hidden animate-slideUp shadow-xl">
+            <Link
+              to="/about"
+              className="text-neutral-600 font-medium py-2 border-b border-neutral-100"
+            >
               About
             </Link>
-            <Link to="/signup" className="text-neutral-600 font-medium py-2">
-              Join as Seller
-            </Link>
+
+            <div className="flex flex-col gap-2 py-2 border-b border-neutral-100">
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+                Login
+              </span>
+              <Link
+                to="/login/user"
+                className="text-neutral-600 font-medium pl-4 py-1 hover:text-yellow-600"
+              >
+                User Login
+              </Link>
+              <Link
+                to="/login/owner"
+                className="text-neutral-600 font-medium pl-4 py-1 hover:text-yellow-600"
+              >
+                Owner Login
+              </Link>
+              <Link
+                to="/choose"
+                className="text-neutral-600 font-medium pl-4 py-1 hover:text-yellow-600"
+              >
+                Create Account
+              </Link>
+            </div>
+
             <Link
-              to="/login/user"
-              className="w-full text-center px-5 py-3 bg-yellow-400 text-neutral-900 font-semibold rounded-lg"
+              to="/choose"
+              className="w-full text-center px-5 py-3 bg-yellow-400 text-neutral-900 font-semibold rounded-lg mt-2"
             >
-              Sign In
+              Get Started
             </Link>
           </div>
         )}
@@ -103,7 +176,7 @@ export default function Landing() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden">
-        {/* Abstract Background Blobs - Fixed Absolute Positioning with large scale */}
+        {/* Abstract Background Blobs */}
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] bg-yellow-300/20 rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-[600px] h-[600px] bg-yellow-500/10 rounded-full blur-3xl -z-10" />
 
@@ -128,44 +201,63 @@ export default function Landing() {
               marketplace.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                to="/signup/owner"
-                className="px-8 py-4 bg-yellow-400 text-neutral-900 font-bold rounded-xl hover:bg-yellow-300 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+                to="/signup/user"
+                className="flex-1 px-8 py-4 bg-yellow-400 text-neutral-900 font-bold rounded-xl hover:bg-yellow-300 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Start Selling Now
+                <div className="text-left">
+                  <div className="text-xs font-semibold opacity-80 uppercase tracking-wide">
+                    I have junk
+                  </div>
+                  <div className="text-lg">Sell My Items</div>
+                </div>
+                <ArrowRight size={20} />
               </Link>
               <Link
-                to="/about"
-                className="px-8 py-4 bg-white border border-neutral-200 text-neutral-700 font-bold rounded-xl hover:bg-neutral-50 hover:border-neutral-300 transition-all duration-300"
+                to="/signup/owner"
+                className="flex-1 px-8 py-4 bg-white border-2 border-neutral-100 text-neutral-900 font-bold rounded-xl hover:border-yellow-400 hover:bg-yellow-50/50 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Learn More
+                <div className="text-left">
+                  <div className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+                    I am a buyer
+                  </div>
+                  <div className="text-lg">Register Shop</div>
+                </div>
               </Link>
             </div>
 
-            <div className="flex items-center gap-8 pt-4">
-              <div>
-                <p className="text-3xl font-bold text-neutral-900">5k+</p>
-                <p className="text-sm text-neutral-500 font-medium">
-                  Active Users
-                </p>
+            <div className="flex items-center gap-8 pt-6 border-t border-neutral-100">
+              <div className="flex -space-x-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="w-10 h-10 rounded-full border-2 border-white bg-neutral-100 overflow-hidden"
+                  >
+                    <img
+                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                      alt="User"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-neutral-900 text-white flex items-center justify-center text-xs font-bold">
+                  +2k
+                </div>
               </div>
-              <div className="w-px h-10 bg-neutral-200" />
-              <div>
-                <p className="text-3xl font-bold text-neutral-900">12k+</p>
-                <p className="text-sm text-neutral-500 font-medium">
-                  Items Recycled
-                </p>
+              <div className="text-sm">
+                <p className="font-bold text-neutral-900">Trusted Community</p>
+                <p className="text-neutral-500">Join 2,000+ active recyclers</p>
               </div>
             </div>
           </div>
 
           <div className="relative h-[600px] w-full hidden lg:block animate-slideRight delay-200">
             {/* Composition of Images */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-yellow-400 rounded-full opacity-10 animate-pulse" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full opacity-20 blur-3xl animate-pulse" />
 
-            {/* Floating Elements - Using absolute positioning within the relative container for the composition */}
-            <div className="absolute top-0 right-10 w-64 h-64 rounded-2xl overflow-hidden rotate-6 hover:rotate-0 transition-all duration-500 border-4 border-white z-20">
+            {/* Floating Elements */}
+            <div className="absolute top-10 right-10 w-64 h-64 rounded-3xl overflow-hidden rotate-6 hover:rotate-0 transition-all duration-500 border-8 border-white shadow-2xl z-20">
               <img
                 src="/landing/bottles.png"
                 alt="Recycling Bottles"
@@ -173,7 +265,7 @@ export default function Landing() {
               />
             </div>
 
-            <div className="absolute bottom-20 left-10 w-72 h-60 rounded-2xl overflow-hidden -rotate-6 hover:rotate-0 transition-all duration-500 border-4 border-white z-30">
+            <div className="absolute bottom-20 left-10 w-72 h-60 rounded-3xl overflow-hidden -rotate-6 hover:rotate-0 transition-all duration-500 border-8 border-white shadow-2xl z-30">
               <img
                 src="/landing/workingtv.png"
                 alt="Electronics"
@@ -181,27 +273,95 @@ export default function Landing() {
               />
             </div>
 
-            <div className="absolute top-40 left-20 w-48 h-48 rounded-2xl overflow-hidden rotate-12 z-10 blur-[2px] opacity-80">
-              <img
-                src="/landing/junks.jpg"
-                alt="Scrap"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
             {/* Decorative Badge */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 bg-white/90 backdrop-blur py-3 px-6 rounded-2xl border border-white/50 animate-float">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg text-green-600">
-                  <Leaf size={24} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 bg-white/90 backdrop-blur-md py-4 px-8 rounded-2xl border border-white/50 shadow-xl animate-float">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-green-100 rounded-xl text-green-600">
+                  <Leaf size={28} />
                 </div>
                 <div>
-                  <p className="font-bold text-neutral-900">
-                    100% Eco-Friendly
+                  <p className="font-bold text-neutral-900 text-lg">
+                    Eco-Friendly
                   </p>
-                  <p className="text-xs text-neutral-500">Verified Process</p>
+                  <p className="text-sm text-neutral-500">Verified Impact</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-white border-y border-neutral-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-neutral-600">
+              Turning your junk into cash is as easy as 1-2-3.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            {/* Connector Line (Desktop) */}
+            <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-transparent via-yellow-300 to-transparent border-t-2 border-dashed border-yellow-200 -z-10" />
+
+            {/* Step 1 */}
+            <div className="relative p-8 rounded-2xl bg-neutral-50 border border-neutral-100 flex flex-col items-center text-center group transition-all duration-300">
+              <div className="w-20 h-20 rounded-2xl bg-yellow-100/80 flex items-center justify-center mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-yellow-500 text-white font-bold flex items-center justify-center border-4 border-white shadow-sm">
+                  1
+                </div>
+                <div className="text-yellow-600">
+                  <Recycle size={32} />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900 mb-3">
+                Snap & Post
+              </h3>
+              <p className="text-neutral-500 leading-relaxed text-sm">
+                Take a photo of your recyclable items and post them on our
+                marketplace in seconds.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative p-8 rounded-2xl bg-neutral-50 border border-neutral-100 flex flex-col items-center text-center group transition-all duration-300">
+              <div className="w-20 h-20 rounded-2xl bg-blue-100/80 flex items-center justify-center mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center border-4 border-white shadow-sm">
+                  2
+                </div>
+                <div className="text-blue-600">
+                  <ShieldCheck size={32} />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900 mb-3">
+                Get Offers
+              </h3>
+              <p className="text-neutral-500 leading-relaxed text-sm">
+                Local junk shops will bid for your items. Choose the best offer
+                that works for you.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative p-8 rounded-2xl bg-neutral-50 border border-neutral-100 flex flex-col items-center text-center group transition-all duration-300">
+              <div className="w-20 h-20 rounded-2xl bg-green-100/80 flex items-center justify-center mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-green-500 text-white font-bold flex items-center justify-center border-4 border-white shadow-sm">
+                  3
+                </div>
+                <div className="text-green-600">
+                  <PhilippinePeso size={32} />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-neutral-900 mb-3">
+                Get Paid
+              </h3>
+              <p className="text-neutral-500 leading-relaxed text-sm">
+                Schedule a pickup or drop-off, complete the trade, and receive
+                instant payment.
+              </p>
             </div>
           </div>
         </div>
@@ -330,16 +490,16 @@ export default function Landing() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/signup/owner"
-              className="px-8 py-4 bg-neutral-900 text-white font-bold rounded-xl hover:scale-105 transition-transform text-lg"
+              to="/signup/user"
+              className="px-8 py-4 bg-neutral-900 text-white font-bold rounded-xl hover:scale-105 transition-transform text-lg flex items-center gap-2"
             >
-              Get Started for Free
+              Start Selling Trash
             </Link>
             <Link
-              to="/login/user"
-              className="px-8 py-4 bg-white/20 backdrop-blur border border-neutral-900/10 text-neutral-900 font-bold rounded-xl hover:bg-white/30 transition-colors text-lg"
+              to="/signup/owner"
+              className="px-8 py-4 bg-white/40 backdrop-blur border-2 border-neutral-900/10 text-neutral-900 font-bold rounded-xl hover:bg-white/60 transition-colors text-lg"
             >
-              Sign In
+              Register Your Shop
             </Link>
           </div>
 

@@ -6,7 +6,7 @@ import {
   CheckCheck,
   Trash2,
   Package,
-  DollarSign,
+  PhilippinePeso,
   ShieldCheck,
   AlertCircle,
 } from "lucide-react";
@@ -57,7 +57,7 @@ export default function NotificationSidebar({
       case "order":
         return <Package className="text-blue-500" size={18} />;
       case "offer":
-        return <DollarSign className="text-orange-500" size={18} />;
+        return <PhilippinePeso className="text-orange-500" size={18} />;
       case "approval":
         return <ShieldCheck className="text-green-500" size={18} />;
       default:

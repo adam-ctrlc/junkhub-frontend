@@ -8,7 +8,7 @@ import {
   Minus,
   Plus,
   Upload,
-  DollarSign,
+  PhilippinePeso,
 } from "lucide-react";
 
 export default function ProductInfo({
@@ -28,7 +28,7 @@ export default function ProductInfo({
       {/* Product type badge */}
       {isBuyingType && (
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold">
-          <DollarSign size={14} />
+          <PhilippinePeso size={14} />
           We're Buying This Item
         </div>
       )}
@@ -95,7 +95,7 @@ export default function ProductInfo({
           <>
             <div className="bg-orange-50 border border-orange-100 rounded-xl p-4">
               <h3 className="font-bold text-orange-900 mb-2 flex items-center gap-2">
-                <DollarSign size={18} />
+                <PhilippinePeso size={18} />
                 Sell Your Items to This Shop
               </h3>
               <p className="text-sm text-orange-700">
