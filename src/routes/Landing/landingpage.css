@@ -1,0 +1,676 @@
+
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  background-color: white;}
+
+  @keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight {
+  from { 
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.text-black { color: black; }
+.text-gold { color: #FFD700; }
+
+a {
+  text-decoration: none;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 55px;
+  background: white;
+  z-index: 2;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  animation: fadeIn 0.8s ease-out forwards;
+
+}
+
+.logo {
+  position: absolute;
+  top: 6px;
+  left: 80px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  z-index: 4; /* Make sure it's above other elements */
+  animation: scaleIn 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  pointer-events: none; /* Make the image non-clickable so the div gets the click */
+
+}
+
+.brand-name {
+  margin-top: 9px;    
+  margin-left: 130px;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 700;
+  font-size: clamp(1rem, 1.50vw, 2rem);
+  letter-spacing: -0.04em;
+}
+
+
+.button-signin {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 600;
+  top: 7px;
+  right: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFD700;
+  height: 20px;
+  width: 50px;
+  color: #000000;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.1s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.button-signin:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+  background-color: #ffd900b7;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+}
+
+.text-container {
+  position: absolute;   /* Add this */
+  top: 17px;
+  right: 180px;             /* Already there */
+  display: flex;
+  gap: 30px;
+}
+
+.text-signup, .text-about, .text-contactus {
+    font-size: 14px;
+    font-weight: 600;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.1s ease;
+}
+
+.text-signup:hover, .text-about:hover, .text-contactus:hover {
+  color: #e0e0e0;
+}
+
+.mainbg {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  margin: 55px auto 0 auto;
+  width: 90%;
+  overflow-x: hidden;
+  z-index: 1;
+  min-height: calc(100vh - 55px); /* Minimum height of viewport */
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.circle-img {
+  position: absolute;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  transition: all 0.3s ease;
+  z-index: 1000; /* High value to ensure top layer */
+  animation: scaleIn 1s ease-out forwards;
+  opacity: 0;
+}
+
+/* Adjust individual image positioning to extend into lower-container */
+.tv-img {
+  width: 200px;
+  height: 200px;
+  border: 3px solid #000000;
+  top: 320px;
+  right: 440px;
+  z-index: 1003;
+  animation-delay: 1.6s;
+
+}
+
+.junk-img {
+  width: 250px;
+  height: 250px;
+  border: 3px solid #000000;
+  top: 200px;
+  right: 280px;
+  z-index: 1002;
+  animation-delay: 1.2s;
+}
+
+.bottle-img {
+  width: 300px;
+  height: 300px;
+  border: 3px solid #000000;
+  top: 40px;
+  right: 120px;
+  z-index: 1001;
+  animation-delay: 0.8s;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 5%;
+  margin-top: 100px; /* Try reducing from 100px */
+  margin-bottom: auto;
+  animation: slideUp 1s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.hero-title, 
+.hero-subtitle {
+  margin: 0;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 3vw, 4rem);
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  margin: 1rem 0 0.4rem;
+  max-width: 900px;
+}
+
+.divider-line {
+  width: 47%;
+  height: 3px;
+  margin: 0.4rem 0;
+  background-color: #000;
+}
+
+.hero-description {
+  margin: 0;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: clamp(1.125rem, 1.75vw, 1.50rem);
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  max-width: 450px;
+}
+
+/* Call to Action */
+.cta-container {
+  display: flex;
+  gap: v0.4rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px; /* Consistent with width max() */
+  width: max(180px, 8vw);
+  height: clamp(50px, 3.5vw, 65px); /* Better proportional scaling */
+  background-color: #ffd700;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 700;
+  color: black;
+  font-size: clamp(1.1rem, 1.3vw, 1.5rem); /* Better text scaling */
+  text-decoration: none;
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+  padding: 0 1.5rem; /* Adjusted for better text spacing */
+  white-space: nowrap; /* Prevents text wrapping */
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px) scale(1.05); 
+  background-color: #ffd900b7; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);  
+}
+
+.lower-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  background: linear-gradient(to right, #C9AA00, #FFD700);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 1; /* Lower than images */
+  top: -140px; /* Pull up to overlap with main content */
+  margin-bottom: -140px;
+  animation: fadeIn 1s ease-out 0.5s forwards;
+  opacity: 0;
+  
+}
+
+.circle1 {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background-color: #FFD700;
+  border-radius: 50%;
+  top: 50px;
+  left: 100px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  animation: 
+    float 8s ease-in-out infinite,
+    fadeIn 1s ease-out forwards;
+  opacity: 0;
+  animation-delay: 0.5s;
+}
+
+.circle2 {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  background-color: #FFD700;
+  border-radius: 50%;
+  top: -500px;
+  right: -1100px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  animation: 
+    float 10s ease-in-out infinite,
+    fadeIn 1s ease-out forwards;
+  opacity: 0;
+  animation-delay: 0.7s;
+}
+
+.circle3 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: #FFD700;
+  border-radius: 50%;
+  top: 250px;
+  right: 150px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  animation: 
+    float 7s ease-in-out infinite,
+    fadeIn 1s ease-out forwards;
+  opacity: 0;
+  animation-delay: 0.9s;
+}
+
+.circle4 {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background-color: #FFD700;
+  border-radius: 50%;
+  top: 150px;
+  right: 350px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  animation: 
+    float 9s ease-in-out infinite,
+    fadeIn 1s ease-out forwards;
+  opacity: 0;
+  animation-delay: 1.1s;
+}
+
+.circle5 {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background-color: #FFD700;
+  border-radius: 50%;
+  top: -190px;
+  right: 900px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  animation: 
+    float 11s ease-in-out infinite,
+    fadeIn 1s ease-out forwards;
+  opacity: 0;
+  animation-delay: 1.3s;
+}
+
+/* About */
+
+.midbg {
+  position: relative;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffe664 100%);
+  margin: 0 auto;
+  width: 100%;
+  height: 60vh; /* Full height */
+  overflow-x: hidden;
+  z-index: 0;
+  padding: 40px 0; /* Add some padding for content */
+  margin-top: 0x; /* Remove any top margin */
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 1s ease-out 0.7s forwards;
+  opacity: 0;
+    animation: 
+    fadeIn 1s ease-out 0.5s forwards,
+    gradientShift 8s ease infinite alternate;
+  background-size: 200% 200%;
+
+}
+
+.logoo-circle {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background-color: #fdfdfd;
+  border-radius: 50%;
+  top: 90px;
+  right: 250px;
+  box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.8s ease-out 1.1s forwards;
+  opacity: 0;
+}
+
+.logoo {
+  position: absolute;
+  top: 90px;
+  right: 250px;
+  width: 350px;
+  height: 350px;
+  animation: scaleIn 0.8s ease-out 1.1s forwards;
+  opacity: 0;
+}
+
+
+.logoo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  pointer-events: none; /* Make the image non-clickable so the div gets the click */
+}
+
+
+.brand-namee {
+  position: relative;
+  margin-top: 9px;    
+  left: 150px;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-weight: 700;
+  font-size: clamp(1rem, 4vw, 3rem);
+  letter-spacing: -0.04em;
+  animation: slideRight 0.8s ease-out 0.9s forwards;
+  opacity: 0;
+}
+
+
+.description-container {
+  position: relative;
+  margin-top: 9px;    
+  left: 150px;
+  width: 35%;
+  animation: slideRight 0.8s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.text-description { 
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  text-decoration: none;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.1s ease;
+  text-align: justify;
+
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== */
+/* Footer Styles */
+/* ==================== */
+.footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 60px 0 0;
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-brand {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.footer-logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.footer-logo h2 {
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.footer-tagline {
+    font-style: italic;
+    opacity: 0.9;
+    max-width: 300px;
+    color: #bdc3c7;
+}
+
+.footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    flex: 2;
+}
+
+.footer-nav-column, .footer-contact {
+    min-width: 160px;
+}
+
+.footer h3 {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+.footer h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background: #FFD700;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer li {
+    margin-bottom: 12px;
+}
+
+.footer a {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #FFD700;
+}
+
+.contact-icon {
+    display: inline-block;
+    width: 20px;
+    margin-right: 10px;
+    text-align: center;
+    color: #FFD700;
+}
+
+.footer-bottom {
+    background: #1a252f;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+      
+}
+
+.footer-social {
+    margin-bottom: 15px;
+}
+
+.social-icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin: 0 5px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover .social-icon {
+    background: #FFD700;
+    color: #2c3e50;
+    transform: translateY(-3px);
+}
+
+.footer-copyright {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-main {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .footer-nav {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .footer-brand {
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    .footer-tagline {
+        margin: 0 auto;
+    }
+}
