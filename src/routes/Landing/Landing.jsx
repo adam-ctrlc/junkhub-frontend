@@ -502,30 +502,6 @@ export default function Landing() {
               Register Your Shop
             </Link>
           </div>
-
-          <div className="mt-16 pt-8 border-t border-neutral-900/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium text-neutral-800/60">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full overflow-hidden bg-white/20">
-                <img
-                  src="/landing/Logo.png"
-                  alt="Logo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span>© 2025 JunkHub Inc.</span>
-            </div>
-            <div className="flex gap-6">
-              <Link to="/privacy" className="hover:text-neutral-900">
-                Privacy
-              </Link>
-              <Link to="/terms" className="hover:text-neutral-900">
-                Terms
-              </Link>
-              <Link to="/social" className="hover:text-neutral-900">
-                Instagram
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 
