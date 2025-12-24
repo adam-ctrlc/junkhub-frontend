@@ -14,10 +14,12 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
+  AlertCircle,
 } from "lucide-react";
 import { useOwnerProducts, useMyShops } from "../../../lib/hooks";
 import { api } from "../../../lib/api";
 import Select from "../../../components/Select";
+import Modal from "../components/Modal";
 
 // Helper to safely get first image from images field (could be JSON string or array)
 const getFirstImage = (images) => {
@@ -46,6 +48,7 @@ export default function Products() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorModal, setErrorModal] = useState({ isOpen: false, message: "" });
 
   // Debounced search for API
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -116,7 +119,10 @@ export default function Products() {
       // Get shopId from first shop (owner must have at least one shop)
       const shopId = shops[0]?.id;
       if (!shopId && !selectedProduct) {
-        alert("You need to create a shop first before adding products.");
+        setErrorModal({
+          isOpen: true,
+          message: "You need to create a shop first before adding products.",
+        });
         setIsSubmitting(false);
         return;
       }
@@ -136,15 +142,17 @@ export default function Products() {
         type: productData.type === "selling" ? "Selling" : "Buying",
       };
 
-      // Only include images if it's a new base64 upload (starts with "data:")
-      // This avoids validation errors when editing without changing the image
+      // Handle images
       if (productData.image && productData.image.startsWith("data:")) {
+        // New base64 upload
         payload.images = [productData.image];
-      } else if (!selectedProduct) {
-        // For new products, send empty array if no image
+      } else if (productData.image) {
+        // Keep existing image URL when editing
+        payload.images = [productData.image];
+      } else {
+        // No image
         payload.images = [];
       }
-      // For updates without new image, don't send images field at all
 
       console.log("Saving product with payload:", payload);
 
@@ -166,7 +174,7 @@ export default function Products() {
       const errorMsg = error.data?.errors
         ? error.data.errors.map((e) => e.msg).join(", ")
         : error.data?.error || "Failed to save product";
-      alert(errorMsg);
+      setErrorModal({ isOpen: true, message: errorMsg });
     } finally {
       setIsSubmitting(false);
     }
@@ -181,7 +189,10 @@ export default function Products() {
       setProductToDelete(null);
     } catch (error) {
       console.error("Failed to delete product:", error);
-      alert(error.data?.error || "Failed to delete product");
+      setErrorModal({
+        isOpen: true,
+        message: error.data?.error || "Failed to delete product",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -430,6 +441,27 @@ export default function Products() {
         cancelText="Cancel"
         variant="danger"
       />
+
+      {/* Error Modal */}
+      <Modal
+        isOpen={errorModal.isOpen}
+        onClose={() => setErrorModal({ isOpen: false, message: "" })}
+        title="Error"
+        size="sm"
+      >
+        <div className="flex flex-col items-center text-center py-4">
+          <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mb-4">
+            <AlertCircle size={28} className="text-red-600" />
+          </div>
+          <p className="text-gray-700 mb-6">{errorModal.message}</p>
+          <button
+            onClick={() => setErrorModal({ isOpen: false, message: "" })}
+            className="px-8 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

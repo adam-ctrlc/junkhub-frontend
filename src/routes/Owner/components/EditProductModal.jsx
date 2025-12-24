@@ -1,6 +1,6 @@
 import Modal from "./Modal";
 import { useState, useEffect } from "react";
-import { Upload, X, Tag, ArrowRightLeft } from "lucide-react";
+import { Upload, X, Tag, ArrowRightLeft, AlertCircle } from "lucide-react";
 import Select from "../../../components/Select";
 
 export default function EditProductModal({
@@ -23,6 +23,7 @@ export default function EditProductModal({
   });
 
   const [imagePreview, setImagePreview] = useState(null);
+  const [errorModal, setErrorModal] = useState({ isOpen: false, message: "" });
 
   useEffect(() => {
     if (product) {
@@ -60,10 +61,13 @@ export default function EditProductModal({
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check file size (5MB = 5 * 1024 * 1024 bytes)
-      const maxSize = 5 * 1024 * 1024;
+      // Check file size (50MB = 50 * 1024 * 1024 bytes)
+      const maxSize = 50 * 1024 * 1024;
       if (file.size > maxSize) {
-        alert("Image size must be less than 5MB");
+        setErrorModal({
+          isOpen: true,
+          message: "Image size must be less than 50MB",
+        });
         e.target.value = null;
         return;
       }
@@ -142,7 +146,7 @@ export default function EditProductModal({
                 <p className="text-xs text-gray-500">
                   Supported: JPG, PNG, GIF
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">Max size: 5MB</p>
+                <p className="text-xs text-gray-400 mt-0.5">Max size: 50MB</p>
               </div>
             </div>
           </div>
@@ -226,7 +230,7 @@ export default function EditProductModal({
               {/* Price */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Price ($) *
+                  Price (₱) *
                 </label>
                 <input
                   type="number"
@@ -301,6 +305,27 @@ export default function EditProductModal({
           </button>
         </div>
       </form>
+
+      {/* Error Modal */}
+      <Modal
+        isOpen={errorModal.isOpen}
+        onClose={() => setErrorModal({ isOpen: false, message: "" })}
+        title="Error"
+        size="sm"
+      >
+        <div className="flex flex-col items-center text-center py-4">
+          <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mb-4">
+            <AlertCircle size={28} className="text-red-600" />
+          </div>
+          <p className="text-gray-700 mb-6">{errorModal.message}</p>
+          <button
+            onClick={() => setErrorModal({ isOpen: false, message: "" })}
+            className="px-8 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </Modal>
   );
 }
