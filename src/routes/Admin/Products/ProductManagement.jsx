@@ -581,19 +581,6 @@ export default function ProductManagement() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Rejection Reason (optional)
-              </label>
-              <textarea
-                value={rejectReason}
-                onChange={(e) => setRejectReason(e.target.value)}
-                placeholder="Provide a reason for rejection that will be sent to the owner..."
-                className="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 resize-none"
-                rows={3}
-              />
-            </div>
-
             <div className="p-4 bg-amber-50 rounded-xl border border-amber-100">
               <p className="text-sm text-amber-700">
                 <strong>Note:</strong> The owner will be notified about this
