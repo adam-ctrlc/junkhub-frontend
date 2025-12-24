@@ -149,11 +149,18 @@ export default function OrderHistory() {
     }
   };
 
-  const orderTabs = ["All Orders", "pending", "delivered", "cancelled"];
+  const orderTabs = [
+    "All Orders",
+    "pending",
+    "delivered",
+    "completed",
+    "cancelled",
+  ];
   const tabLabels = {
     "All Orders": "All Orders",
     pending: "Pending",
     delivered: "Delivered",
+    completed: "Completed",
     cancelled: "Cancelled",
   };
 
