@@ -264,15 +264,25 @@ export default function OwnerManagement() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleOpenModal(owner, "accept")}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                          title="Approve"
+                          className={`p-2 rounded-lg transition-colors ${
+                            owner.approved
+                              ? "text-gray-300 cursor-not-allowed"
+                              : "text-green-600 hover:bg-green-50"
+                          }`}
+                          title={owner.approved ? "Already approved" : "Approve"}
+                          disabled={owner.approved}
                         >
                           <Check size={18} />
                         </button>
                         <button
                           onClick={() => handleOpenModal(owner, "reject")}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Reject"
+                          className={`p-2 rounded-lg transition-colors ${
+                            !owner.approved
+                              ? "text-gray-300 cursor-not-allowed"
+                              : "text-red-600 hover:bg-red-50"
+                          }`}
+                          title={!owner.approved ? "Not yet approved" : "Reject"}
+                          disabled={!owner.approved}
                         >
                           <X size={18} />
                         </button>
