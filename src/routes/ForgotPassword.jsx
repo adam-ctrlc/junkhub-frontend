@@ -546,9 +546,10 @@ export default function ForgotPassword() {
                     setVerificationToken("");
                     setResetData({ newPassword: "", confirmPassword: "" });
                   }}
-                  className="w-full py-3 text-gray-500 font-medium hover:text-gray-700 transition-colors"
+                  className="w-full py-3 text-gray-500 font-medium hover:text-gray-700 transition-colors flex items-center justify-center gap-2"
                 >
-                  ← Back to verification
+                  <ArrowLeft size={18} />
+                  Back to verification
                 </button>
               </form>
             )}
