@@ -97,7 +97,7 @@ export default function Landing() {
                       </Link>
                       <hr className="my-1 border-neutral-100" />
                       <Link
-                        to="/choose"
+                        to="/signup/user"
                         className="block px-4 py-2 rounded-lg hover:bg-neutral-50 text-left"
                       >
                         <span className="block text-neutral-900 font-semibold">
