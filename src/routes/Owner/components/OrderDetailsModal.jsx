@@ -118,16 +118,6 @@ export default function OrderDetailsModal({
                   {customer.email || "N/A"}
                 </p>
               </div>
-              {customer.address && (
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">
-                    Address
-                  </p>
-                  <p className="font-medium text-gray-900">
-                    {customer.address}
-                  </p>
-                </div>
-              )}
             </div>
           </div>
 
@@ -138,11 +128,23 @@ export default function OrderDetailsModal({
               Delivery Address
             </div>
             <div className="bg-white border border-gray-100 rounded-xl p-4">
-              <p className="font-medium text-gray-900 leading-relaxed">
-                {order.shippingAddress}
-                {order.shippingCity && `, ${order.shippingCity}`}
-                {order.shippingZip && ` ${order.shippingZip}`}
-              </p>
+              {order.shippingAddress &&
+              order.shippingAddress !== "Default Address" ? (
+                <p className="font-medium text-gray-900 leading-relaxed">
+                  {order.shippingAddress}
+                  {order.shippingCity &&
+                    order.shippingCity !== "Default City" && (
+                      <>, {order.shippingCity}</>
+                    )}
+                  {order.shippingZip && order.shippingZip !== "00000" && (
+                    <> {order.shippingZip}</>
+                  )}
+                </p>
+              ) : (
+                <p className="font-medium text-gray-500 italic">
+                  {customer.address || "No delivery address specified"}
+                </p>
+              )}
             </div>
           </div>
         </div>

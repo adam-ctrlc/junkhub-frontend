@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { useProduct, useWishlist } from "../../../lib/hooks";
+import { useProduct, useWishlist, useUser } from "../../../lib/hooks";
 import { useCart } from "../../../lib/cart";
 import api from "../../../lib/api";
 import { ProductDetailsSkeleton } from "../../../components/Skeletons";
@@ -19,6 +19,7 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const { product, isLoading, isError, mutate } = useProduct(id);
   const { wishlist, mutate: mutateWishlist } = useWishlist();
+  const { user } = useUser();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -135,12 +136,25 @@ export default function ProductDetails() {
     setIsProcessing(true);
     setOrderError(null);
 
+    const userAddress = user?.address || "";
+    let shippingAddress = "Default Address";
+    let shippingCity = "Default City";
+    let shippingZip = "00000";
+
+    if (userAddress) {
+      const parts = userAddress.split(",").map((s) => s.trim());
+      shippingAddress = parts[0] || "Default Address";
+      if (parts.length > 1) {
+        shippingCity = parts.slice(1).join(", ");
+      }
+    }
+
     try {
       await api.post("/orders", {
         items: [{ productId: product.id, quantity }],
-        shippingAddress: "Default Address",
-        shippingCity: "Default City",
-        shippingZip: "00000",
+        shippingAddress,
+        shippingCity,
+        shippingZip,
       });
 
       setOrderSuccess(true);

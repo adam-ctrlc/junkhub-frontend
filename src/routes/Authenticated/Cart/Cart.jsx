@@ -1,9 +1,10 @@
-import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, MapPin } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../../lib/cart";
 import { useState } from "react";
 import api from "../../../lib/api";
 import { CartSkeleton } from "../../../components/Skeletons";
+import { useUser } from "../../../lib/hooks";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function Cart() {
     clearCart,
     subtotal,
   } = useCart();
+  const { user } = useUser();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState(null);
 
@@ -42,19 +44,32 @@ export default function Cart() {
     setIsCheckingOut(true);
     setCheckoutError(null);
 
+    const userAddress = user?.address || "";
+    let shippingAddress = "Default Address";
+    let shippingCity = "Default City";
+    let shippingZip = "00000";
+
+    if (userAddress) {
+      const parts = userAddress.split(",").map((s) => s.trim());
+      shippingAddress = parts[0] || "Default Address";
+      if (parts.length > 1) {
+        shippingCity = parts.slice(1).join(", ");
+      }
+    }
+
     try {
       await api.post("/orders", {
         items: cart.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
         })),
-        shippingAddress: "Default Address", // In a real app, collect from user
-        shippingCity: "Default City",
-        shippingZip: "00000",
+        shippingAddress,
+        shippingCity,
+        shippingZip,
       });
 
       clearCart();
-      navigate("/profile"); // Navigate to orders page
+      navigate("/profile");
     } catch (error) {
       setCheckoutError(
         error.message || "Failed to checkout. Please try again."
