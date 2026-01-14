@@ -6,7 +6,6 @@ import {
   MapPin,
   ArrowLeft,
   Package,
-  Loader2,
   Store,
   Star,
   Search,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import Select from "../../../components/Select";
 import Modal from "../components/Modal";
+import { ShopDetailsSkeleton } from "../../../components/Skeletons";
 
 export default function ShopDetails() {
   const { id } = useParams();
@@ -165,11 +165,7 @@ export default function ShopDetails() {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
-      </div>
-    );
+    return <ShopDetailsSkeleton />;
   }
 
   if (isError || !shop) {
@@ -213,9 +209,9 @@ export default function ShopDetails() {
           <div className="flex flex-col md:flex-row gap-6 items-start">
             {/* Shop Logo */}
             <div className="w-24 h-24 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 shrink-0 overflow-hidden">
-              {shop.logo && shop.logo.startsWith("http") ? (
+              {shop.logo || shop.owner?.profilePic ? (
                 <img
-                  src={shop.logo}
+                  src={shop.logo || shop.owner?.profilePic}
                   alt={shop.name}
                   className="w-full h-full object-cover"
                 />
@@ -236,9 +232,25 @@ export default function ShopDetails() {
               {/* Rating */}
               <div className="flex items-center gap-1 text-[#FCD34D] mb-4">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} fill="currentColor" />
+                  <Star
+                    key={i}
+                    size={16}
+                    fill={
+                      i < Math.round(shop.averageRating || 0)
+                        ? "currentColor"
+                        : "none"
+                    }
+                    className={
+                      i < Math.round(shop.averageRating || 0)
+                        ? ""
+                        : "text-gray-300"
+                    }
+                  />
                 ))}
-                <span className="text-gray-500 text-sm ml-2">5.0 Rating</span>
+                <span className="text-gray-500 text-sm ml-2">
+                  {shop.averageRating || 0} Rating ({shop.reviewCount || 0}{" "}
+                  {shop.reviewCount === 1 ? "review" : "reviews"})
+                </span>
               </div>
 
               <div className="flex flex-wrap gap-4 text-sm text-gray-500">

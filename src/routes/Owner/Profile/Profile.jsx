@@ -15,6 +15,7 @@ export default function Profile() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
   const [passwordError, setPasswordError] = useState("");
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
@@ -83,6 +84,7 @@ export default function Profile() {
   const handleSave = async () => {
     setLoading(true);
     setError("");
+    setFieldErrors({});
     try {
       const updateData = {
         businessName: formData.businessName,
@@ -97,7 +99,19 @@ export default function Profile() {
       setIsEditing(false);
       setProfilePic(null);
     } catch (err) {
-      setError(err.data?.error || "Failed to update profile");
+      // Parse validation errors from backend
+      if (err.data?.errors && Array.isArray(err.data.errors)) {
+        const errors = {};
+        err.data.errors.forEach((e) => {
+          if (e.path) {
+            errors[e.path] = e.msg;
+          }
+        });
+        setFieldErrors(errors);
+        setError("Please fix the errors below");
+      } else {
+        setError(err.data?.error || "Failed to update profile");
+      }
     } finally {
       setLoading(false);
     }
@@ -106,13 +120,24 @@ export default function Profile() {
   const handleChangePassword = async () => {
     setPasswordError("");
 
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setPasswordError("Passwords do not match");
+    // Frontend validation
+    if (!passwordData.currentPassword) {
+      setPasswordError("Current password is required");
+      return;
+    }
+
+    if (!passwordData.newPassword) {
+      setPasswordError("New password is required");
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+      setPasswordError("New password must be at least 6 characters");
+      return;
+    }
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError("Passwords do not match");
       return;
     }
 
@@ -130,7 +155,12 @@ export default function Profile() {
       });
       alert("Password updated successfully!");
     } catch (err) {
-      setPasswordError(err.data?.error || "Failed to update password");
+      // Parse validation errors from backend
+      if (err.data?.errors && Array.isArray(err.data.errors)) {
+        setPasswordError(err.data.errors.map((e) => e.msg).join(", "));
+      } else {
+        setPasswordError(err.data?.error || "Failed to update password");
+      }
     } finally {
       setPasswordLoading(false);
     }
@@ -286,13 +316,24 @@ export default function Profile() {
                 <div className="space-y-1">
                   <label className="text-xs text-gray-500">Business Name</label>
                   {isEditing ? (
-                    <input
-                      type="text"
-                      name="businessName"
-                      value={formData.businessName}
-                      onChange={handleChange}
-                      className="w-full p-3 bg-white rounded-lg border border-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-gray-900"
-                    />
+                    <>
+                      <input
+                        type="text"
+                        name="businessName"
+                        value={formData.businessName}
+                        onChange={handleChange}
+                        className={`w-full p-3 bg-white rounded-lg border focus:outline-none focus:ring-1 text-gray-900 ${
+                          fieldErrors.businessName
+                            ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                            : "border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+                        }`}
+                      />
+                      {fieldErrors.businessName && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {fieldErrors.businessName}
+                        </p>
+                      )}
+                    </>
                   ) : (
                     <div className="p-3 bg-gray-50 rounded-lg text-gray-900 font-medium border border-gray-100">
                       {formData.businessName || "-"}
@@ -308,13 +349,25 @@ export default function Profile() {
                 <div className="space-y-1">
                   <label className="text-xs text-gray-500">Phone Number</label>
                   {isEditing ? (
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full p-3 bg-white rounded-lg border border-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-gray-900"
-                    />
+                    <>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="09123456789"
+                        className={`w-full p-3 bg-white rounded-lg border focus:outline-none focus:ring-1 text-gray-900 ${
+                          fieldErrors.phone
+                            ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                            : "border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+                        }`}
+                      />
+                      {fieldErrors.phone && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {fieldErrors.phone}
+                        </p>
+                      )}
+                    </>
                   ) : (
                     <div className="p-3 bg-gray-50 rounded-lg text-gray-900 font-medium border border-gray-100">
                       {formData.phone || "-"}
@@ -326,13 +379,24 @@ export default function Profile() {
                     Business Address
                   </label>
                   {isEditing ? (
-                    <textarea
-                      name="businessAddress"
-                      value={formData.businessAddress}
-                      onChange={handleChange}
-                      rows={2}
-                      className="w-full p-3 bg-white rounded-lg border border-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-gray-900 resize-none"
-                    />
+                    <>
+                      <textarea
+                        name="businessAddress"
+                        value={formData.businessAddress}
+                        onChange={handleChange}
+                        rows={2}
+                        className={`w-full p-3 bg-white rounded-lg border focus:outline-none focus:ring-1 text-gray-900 resize-none ${
+                          fieldErrors.businessAddress
+                            ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                            : "border-gray-200 focus:border-indigo-500 focus:ring-indigo-500"
+                        }`}
+                      />
+                      {fieldErrors.businessAddress && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {fieldErrors.businessAddress}
+                        </p>
+                      )}
+                    </>
                   ) : (
                     <div className="p-3 bg-gray-50 rounded-lg text-gray-900 font-medium border border-gray-100">
                       {formData.businessAddress || "-"}

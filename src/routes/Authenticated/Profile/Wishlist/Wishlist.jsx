@@ -4,6 +4,7 @@ import Modal from "../../components/Modal";
 import { ShoppingCart, Bell, Trash2 } from "lucide-react";
 import { useWishlist } from "../../../../lib/hooks";
 import api from "../../../../lib/api";
+import { WishlistSkeleton } from "../../../../components/Skeletons";
 
 export default function Wishlist() {
   const { wishlist, isLoading, isError, mutate } = useWishlist();
@@ -38,11 +39,7 @@ export default function Wishlist() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-4 border-gray-200 border-t-[#FCD34D] rounded-full animate-spin"></div>
-      </div>
-    );
+    return <WishlistSkeleton />;
   }
 
   if (isError) {

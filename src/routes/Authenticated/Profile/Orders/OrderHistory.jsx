@@ -21,6 +21,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import ChatSidebar from "../../../../components/ChatSidebar";
+import { OrderHistorySkeleton } from "../../../../components/Skeletons";
 
 export default function OrderHistory() {
   const {
@@ -195,11 +196,7 @@ export default function OrderHistory() {
   const isError = mainTab === "orders" ? ordersError : offersError;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-4 border-gray-200 border-t-[#FCD34D] rounded-full animate-spin"></div>
-      </div>
-    );
+    return <OrderHistorySkeleton />;
   }
 
   if (isError) {

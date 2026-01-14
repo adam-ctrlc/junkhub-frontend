@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useProduct, useWishlist } from "../../../lib/hooks";
 import { useCart } from "../../../lib/cart";
 import api from "../../../lib/api";
+import { ProductDetailsSkeleton } from "../../../components/Skeletons";
 
 // Local components
 import ProductImages from "./ProductImages";
@@ -11,11 +12,12 @@ import ProductInfo from "./ProductInfo";
 import CartModal from "./CartModal";
 import BuyNowModal from "./BuyNowModal";
 import SellToShopModal from "./SellToShopModal";
+import ReviewSection from "./ReviewSection";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { product, isLoading, isError } = useProduct(id);
+  const { product, isLoading, isError, mutate } = useProduct(id);
   const { wishlist, mutate: mutateWishlist } = useWishlist();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -30,11 +32,7 @@ export default function ProductDetails() {
 
   // Loading state
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
-      </div>
-    );
+    return <ProductDetailsSkeleton />;
   }
 
   // Error state or no product
@@ -102,8 +100,9 @@ export default function ProductDetails() {
     stock: product.stock || 0,
     description: product.description || "",
     images: parseImages(product.images),
-    shop: product.shop || { id: null, name: "Unknown Shop" },
+    shop: product.shop || { id: null, name: "Unknown Shop", logo: null },
     category: product.category || "General",
+    reviews: product.reviews || [],
   };
 
   const handleQuantityChange = (type) => {
@@ -230,6 +229,15 @@ export default function ProductDetails() {
           onSellToShop={handleSellToShop}
           isInWishlist={isInWishlist}
           onToggleWishlist={toggleWishlist}
+        />
+      </div>
+
+      {/* Reviews Section */}
+      <div className="mt-12">
+        <ReviewSection
+          productId={product.id}
+          reviews={displayData.reviews}
+          onReviewSubmit={() => mutate()}
         />
       </div>
 

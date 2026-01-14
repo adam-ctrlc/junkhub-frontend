@@ -118,6 +118,16 @@ export default function OrderDetailsModal({
                   {customer.email || "N/A"}
                 </p>
               </div>
+              {customer.address && (
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">
+                    Address
+                  </p>
+                  <p className="font-medium text-gray-900">
+                    {customer.address}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

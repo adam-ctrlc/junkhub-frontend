@@ -4,6 +4,7 @@ import Select from "../../../components/Select";
 import Card from "../../../components/Card";
 import { Filter, Search, X } from "lucide-react";
 import { useProducts } from "../../../lib/hooks";
+import { ProductGridSkeleton } from "../../../components/Skeletons";
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -77,9 +78,14 @@ export default function Products() {
     return (
       <div className="min-h-screen bg-white font-sans">
         <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="w-8 h-8 border-4 border-gray-200 border-t-[#FCD34D] rounded-full animate-spin"></div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div className="h-8 w-48 bg-gray-200 animate-pulse rounded" />
+            <div className="flex gap-4">
+              <div className="h-10 w-32 bg-gray-200 animate-pulse rounded-lg" />
+              <div className="h-10 w-32 bg-gray-200 animate-pulse rounded-lg" />
+            </div>
           </div>
+          <ProductGridSkeleton count={8} />
         </main>
       </div>
     );
@@ -188,9 +194,20 @@ export default function Products() {
                     details={[
                       { text: `Available Pieces: ${item.stock}` },
                       {
-                        icon: (
-                          <div className="w-5 h-5 bg-gray-300 rounded-full"></div>
-                        ),
+                        icon:
+                          item.shop?.logo || item.shop?.owner?.profilePic ? (
+                            <img
+                              src={
+                                item.shop?.logo || item.shop?.owner?.profilePic
+                              }
+                              alt=""
+                              className="w-5 h-5 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center text-[8px] text-gray-500">
+                              {item.shop?.name?.[0]}
+                            </div>
+                          ),
                         text: item.shop?.name || "Unknown Shop",
                       },
                     ]}

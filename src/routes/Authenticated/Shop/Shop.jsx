@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
-import { Star, MapPin, Loader2, Store } from "lucide-react";
+import { Star, MapPin, Store } from "lucide-react";
 import { useShops } from "../../../lib/hooks";
 import Select from "../../../components/Select";
+import { ShopGridSkeleton } from "../../../components/Skeletons";
 
 export default function Shop() {
   const { shops, isLoading, isError } = useShops();
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+      <div className="min-h-screen bg-white font-sans">
+        <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div className="h-8 w-48 bg-gray-200 animate-pulse rounded" />
+            <div className="h-10 w-48 bg-gray-200 animate-pulse rounded-lg" />
+          </div>
+          <ShopGridSkeleton count={6} />
+        </main>
       </div>
     );
   }
@@ -50,9 +57,9 @@ export default function Shop() {
               >
                 {/* Shop Logo/Image */}
                 <div className="h-48 bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center text-emerald-600 group-hover:from-emerald-100 group-hover:to-emerald-200 transition-colors">
-                  {shop.logo ? (
+                  {shop.logo || shop.owner?.profilePic ? (
                     <img
-                      src={shop.logo}
+                      src={shop.logo || shop.owner?.profilePic}
                       alt={shop.name}
                       className="w-full h-full object-cover"
                     />
@@ -64,10 +71,26 @@ export default function Shop() {
                 {/* Content */}
                 <div className="p-4 text-center">
                   {/* Rating */}
-                  <div className="flex justify-center gap-0.5 text-[#FCD34D] mb-2">
+                  <div className="flex justify-center items-center gap-1 text-[#FCD34D] mb-2">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={14} fill="currentColor" />
+                      <Star
+                        key={i}
+                        size={14}
+                        fill={
+                          i < Math.round(shop.averageRating || 0)
+                            ? "currentColor"
+                            : "none"
+                        }
+                        className={
+                          i < Math.round(shop.averageRating || 0)
+                            ? ""
+                            : "text-gray-300"
+                        }
+                      />
                     ))}
+                    <span className="text-xs text-gray-500 ml-1">
+                      ({shop.reviewCount || 0})
+                    </span>
                   </div>
 
                   {/* Shop Name */}

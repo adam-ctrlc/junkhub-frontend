@@ -1,15 +1,9 @@
-import {
-  Trash2,
-  Plus,
-  Minus,
-  ArrowRight,
-  ShoppingBag,
-  Loader2,
-} from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../../lib/cart";
 import { useState } from "react";
 import api from "../../../lib/api";
+import { CartSkeleton } from "../../../components/Skeletons";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -71,11 +65,7 @@ export default function Cart() {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
-      </div>
-    );
+    return <CartSkeleton />;
   }
 
   return (

@@ -21,6 +21,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 // Import shared components
 import Card from "../../../components/Card";
+import { HomepageSkeleton } from "../../../components/Skeletons";
 
 // Shop Card for Carousel
 function ShopSlide({ shop }) {
@@ -30,28 +31,39 @@ function ShopSlide({ shop }) {
       to={`/shop/${shop.id}`}
       className="relative w-full h-[250px] rounded-xl overflow-hidden group block"
     >
-      {shop.logo ? (
+      {shop.logo || shop.owner?.profilePic ? (
         <img
-          src={shop.logo}
+          src={shop.logo || shop.owner?.profilePic}
           alt={shop.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       ) : (
-        <div className="w-full h-full bg-gradient-to-br from-yellow-200 to-yellow-500 flex items-center justify-center">
-          <span className="text-4xl font-bold text-gray-800">{shop.name}</span>
+        <div className="w-full h-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center text-emerald-600">
+          <Store size={64} strokeWidth={1} />
         </div>
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
         <div className="flex items-center gap-1 mb-2">
-          {[1, 2, 3, 4, 5].map((i) => (
+          {[...Array(5)].map((_, i) => (
             <Star
               key={i}
               size={14}
-              fill="currentColor"
-              className="text-yellow-400"
+              fill={
+                i < Math.round(shop.averageRating || 0)
+                  ? "currentColor"
+                  : "none"
+              }
+              className={
+                i < Math.round(shop.averageRating || 0)
+                  ? "text-yellow-400"
+                  : "text-gray-500"
+              }
             />
           ))}
+          <span className="text-xs text-gray-300 ml-1">
+            ({shop.reviewCount || 0})
+          </span>
         </div>
         <h3 className="text-2xl font-bold mb-1">{shop.name}</h3>
         <p className="text-sm text-gray-200">
@@ -120,6 +132,10 @@ export default function Homepage() {
   const categoryProducts = selectedCategory
     ? products.filter((p) => p.category === selectedCategory)
     : [];
+
+  if (shopsLoading || bestSellersLoading || productsLoading) {
+    return <HomepageSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -198,7 +214,20 @@ export default function Homepage() {
                       }
                       details={[
                         {
-                          icon: <Store size={14} />,
+                          icon:
+                            product.shop?.logo ||
+                            product.shop?.owner?.profilePic ? (
+                              <img
+                                src={
+                                  product.shop?.logo ||
+                                  product.shop?.owner?.profilePic
+                                }
+                                alt=""
+                                className="w-4 h-4 rounded-full object-cover"
+                              />
+                            ) : (
+                              <Store size={14} />
+                            ),
                           text: product.shop?.name || "Shop",
                         },
                       ]}
@@ -279,7 +308,20 @@ export default function Homepage() {
                         }
                         details={[
                           {
-                            icon: <Store size={14} />,
+                            icon:
+                              product.shop?.logo ||
+                              product.shop?.owner?.profilePic ? (
+                                <img
+                                  src={
+                                    product.shop?.logo ||
+                                    product.shop?.owner?.profilePic
+                                  }
+                                  alt=""
+                                  className="w-4 h-4 rounded-full object-cover"
+                                />
+                              ) : (
+                                <Store size={14} />
+                              ),
                             text: product.shop?.name || "Shop",
                           },
                         ]}
@@ -348,7 +390,20 @@ export default function Homepage() {
                       }
                       details={[
                         {
-                          icon: <Store size={14} />,
+                          icon:
+                            product.shop?.logo ||
+                            product.shop?.owner?.profilePic ? (
+                              <img
+                                src={
+                                  product.shop?.logo ||
+                                  product.shop?.owner?.profilePic
+                                }
+                                alt=""
+                                className="w-4 h-4 rounded-full object-cover"
+                              />
+                            ) : (
+                              <Store size={14} />
+                            ),
                           text: product.shop?.name || "Shop",
                         },
                       ]}
@@ -402,24 +457,37 @@ export default function Homepage() {
                 <Link to={`/shop/${shop.id}`} key={shop.id}>
                   <Card
                     image={
-                      shop.logo ? (
+                      shop.logo || shop.owner?.profilePic ? (
                         <img
-                          src={shop.logo}
+                          src={shop.logo || shop.owner?.profilePic}
                           alt={shop.name}
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <span className="text-gray-400 text-lg font-bold">
-                          {shop.name?.[0]}
-                        </span>
+                        <div className="w-full h-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center text-emerald-600">
+                          <Store size={64} strokeWidth={1} />
+                        </div>
                       )
                     }
                     title={shop.name}
                     details={[
                       shop.businessAddress?.split(",")[0] || "Location",
                     ]}
-                    badges={[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} size={12} fill="currentColor" />
+                    badges={[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={12}
+                        fill={
+                          i < Math.round(shop.averageRating || 0)
+                            ? "currentColor"
+                            : "none"
+                        }
+                        className={
+                          i < Math.round(shop.averageRating || 0)
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        }
+                      />
                     ))}
                     className="h-full hover:border-yellow-400 transition-colors"
                   />

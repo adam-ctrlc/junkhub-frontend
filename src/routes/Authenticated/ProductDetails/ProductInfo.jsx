@@ -23,6 +23,14 @@ export default function ProductInfo({
   isInWishlist,
   onToggleWishlist,
 }) {
+  // Calculate average rating from reviews
+  const reviews = displayData.reviews || [];
+  const reviewCount = reviews.length;
+  const averageRating =
+    reviewCount > 0
+      ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
+      : "0.0";
+
   return (
     <div className="space-y-6">
       {/* Product type badge */}
@@ -32,7 +40,6 @@ export default function ProductInfo({
           We're Buying This Item
         </div>
       )}
-
       <div>
         <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-2">
           {displayData.title}
@@ -40,16 +47,15 @@ export default function ProductInfo({
         <div className="flex items-center gap-4 text-sm">
           <div className="flex items-center gap-1 text-yellow-500">
             <Star size={16} fill="currentColor" />
-            <span className="font-bold text-gray-900">4.5</span>
+            <span className="font-bold text-gray-900">{averageRating}</span>
             <span className="text-gray-500 underline cursor-pointer hover:text-indigo-600">
-              (Reviews)
+              ({reviewCount} {reviewCount === 1 ? "Review" : "Reviews"})
             </span>
           </div>
           <span className="text-gray-300">|</span>
           <span className="text-gray-600">{displayData.category}</span>
         </div>
       </div>
-
       <div className="flex items-end gap-2">
         <h2 className="text-4xl font-bold text-[#F59E0B]">
           ₱{displayData.price.toLocaleString()}
@@ -58,11 +64,9 @@ export default function ProductInfo({
           {isBuyingType ? "/ unit (buying price)" : "/ unit"}
         </span>
       </div>
-
       <p className="text-gray-600 leading-relaxed text-sm">
         {displayData.description}
       </p>
-
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
         <div className="grid grid-cols-2 gap-y-2 text-sm">
           <div className="text-gray-500">Category:</div>
@@ -86,9 +90,7 @@ export default function ProductInfo({
           </div>
         </div>
       </div>
-
       <hr className="border-gray-100" />
-
       {/* Action Area - Different for Buying vs Selling type */}
       <div className="space-y-6">
         {isBuyingType ? (
@@ -171,14 +173,20 @@ export default function ProductInfo({
           </>
         )}
       </div>
-
       <hr className="border-gray-100" />
-
       {/* Seller Info */}
       <div className="flex items-center gap-4">
-        <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg">
-          {displayData.shop.name?.substring(0, 2).toUpperCase() || "??"}
-        </div>
+        {displayData.shop.logo || displayData.shop.owner?.profilePic ? (
+          <img
+            src={displayData.shop.logo || displayData.shop.owner?.profilePic}
+            alt={displayData.shop.name}
+            className="w-12 h-12 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg">
+            {displayData.shop.name?.substring(0, 2).toUpperCase() || "??"}
+          </div>
+        )}
         <div className="flex-1">
           <h4 className="font-bold text-gray-900">{displayData.shop.name}</h4>
           <p className="text-xs text-gray-500">
@@ -194,20 +202,6 @@ export default function ProductInfo({
           </Link>
         )}
       </div>
-
-      {/* Delivery Info - only for selling type */}
-      {!isBuyingType && (
-        <div className="bg-blue-50 text-blue-800 text-sm px-4 py-3 rounded-lg flex items-start gap-3">
-          <Truck size={18} className="shrink-0 mt-0.5" />
-          <div>
-            <span className="font-bold">Fast Delivery:</span> Get it by{" "}
-            {new Date(
-              Date.now() + 3 * 24 * 60 * 60 * 1000
-            ).toLocaleDateString()}
-            . Free shipping on orders over ₱5,000.
-          </div>
-        </div>
-      )}
     </div>
   );
 }

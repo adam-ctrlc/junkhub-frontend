@@ -97,13 +97,24 @@ export default function AdminProfile() {
     setPasswordError("");
     setPasswordSuccess("");
 
-    if (newPassword !== confirmPassword) {
-      setPasswordError("New passwords do not match");
+    // Frontend validation
+    if (!currentPassword) {
+      setPasswordError("Current password is required");
+      return;
+    }
+
+    if (!newPassword) {
+      setPasswordError("New password is required");
       return;
     }
 
     if (newPassword.length < 6) {
       setPasswordError("New password must be at least 6 characters");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match");
       return;
     }
 
@@ -115,7 +126,12 @@ export default function AdminProfile() {
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      setPasswordError(err.message || "Failed to update password");
+      // Parse validation errors from backend
+      if (err.errors && Array.isArray(err.errors)) {
+        setPasswordError(err.errors.map((e) => e.msg).join(", "));
+      } else {
+        setPasswordError(err.message || "Failed to update password");
+      }
     } finally {
       setPasswordLoading(false);
     }
